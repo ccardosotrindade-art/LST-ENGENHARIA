@@ -22,11 +22,12 @@ jobs:
         npm install
         npm run build
 
-    - name: Enviar Arquivos via FTP
-      uses: SamKirsch/ftp-deploy-action@v1.2
-      with:
-        host: ${{ secrets.FTP_SERVER }}
-        user: ${{ secrets.FTP_USERNAME }}
-        password: ${{ secrets.FTP_PASSWORD }}
-        localdir: ./dist/
-        remotedir: /lstengenharia.com.br/
+    - name: Enviar Arquivos via FTP Nativo
+      run: |
+        sudo apt-get update && sudo apt-get install -y lftp
+        lftp -c "
+        set ftp:ssl-allow no;
+        open -u ${{ secrets.FTP_USERNAME }},'${{ secrets.FTP_PASSWORD }}' ${{ secrets.FTP_SERVER }};
+        mirror -R --delete ./dist/ /lstengenharia.com.br/;
+        quit;
+        "
