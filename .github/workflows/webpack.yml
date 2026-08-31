@@ -23,7 +23,7 @@ jobs:
         npm run build
 
     - name: Enviar Arquivos via FTP
-      uses: SamKirsch/ftp-deploy@v1.2.1
+      uses: SamKirsch/ftp-deploy-action@v1
       with:
         server: ${{ secrets.FTP_SERVER }}
         username: ${{ secrets.FTP_USERNAME }}
